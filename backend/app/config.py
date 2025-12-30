@@ -15,6 +15,10 @@ from typing import Any, Dict
 
 from pydantic_settings import BaseSettings
 
+# 获取 backend/ 目录的绝对路径
+_BACKEND_DIR = Path(__file__).parent.parent
+_ENV_FILE_PATH = _BACKEND_DIR / ".env"
+
 
 class Settings(BaseSettings):
     """应用配置"""
@@ -25,9 +29,9 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     # ==================== 路径配置 ====================
-    BASE_DIR: Path = Path(__file__).parent.parent
-    IMAGE_OUTPUT_DIR: Path = BASE_DIR / "extracted_images"
-    DATA_DIR: Path = BASE_DIR / "data"
+    BASE_DIR: Path = _BACKEND_DIR  # backend/
+    IMAGE_OUTPUT_DIR: Path = _BACKEND_DIR / "extracted_images"
+    DATA_DIR: Path = _BACKEND_DIR / "data"
     WORKFLOW_GRAPH_PATH: str = "./workflow_graph.png"
 
     # ==================== 知识库元数据存储（SQLite） ====================
@@ -49,7 +53,7 @@ class Settings(BaseSettings):
     LLM_MODEL: str = "gpt-oss:120b"  # gpt-oss:120b  qwen3-vl:235b  qwen3-next:80b
     LLM_BASE_URL: str = "https://ollama.com"
     LLM_TEMPERATURE: float = 0.7
-    OLLAMA_API_KEY: str = "7fdc88bd43af4c7597f0f90f71e2a8ac.mUMETnGBzVhupx_DDTcferuB"
+    OLLAMA_API_KEY: str = ""  # ⚠️ 请通过环境变量或 .env 文件设置真实密钥
 
     # ==================== 索引配置 ====================
     INDEX_TYPE: str = "HNSW"
@@ -74,7 +78,8 @@ class Settings(BaseSettings):
     RETRIEVER_TOOL_DESCRIPTION: str = "搜索并返回相关文档"
 
     class Config:
-        env_file = ".env"
+        # 使用绝对路径，确保无论从哪里启动都能找到 backend/.env
+        env_file = str(_ENV_FILE_PATH)
         env_file_encoding = "utf-8"
 
     # ==================== 配置辅助方法 ====================

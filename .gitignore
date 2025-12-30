@@ -1,2 +1,34 @@
 /.DS_Store
 /.cursor
+
+# 环境变量文件（包含敏感信息）
+.env
+*.env.local
+*.env.production
+# 但保留示例文件
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+.npm
+.cache/
+
+# 临时文件
+*.log
+*.tmp
+.vscode/
+.idea/
+
+# 数据库
+*.sqlite3
+*.db
