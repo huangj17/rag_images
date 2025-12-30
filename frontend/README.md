@@ -1,87 +1,47 @@
-# Welcome to React Router!
+# 前端（React Router 7）使用说明
 
-A modern, production-ready template for building full-stack React applications using React Router.
+基于 React Router 7 构建的管理与检索界面，提供知识库管理、文档解析入库、向量检索与对话等能力。
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## 功能概览
 
-## Features
+- 知识库管理：创建、查看、跳转上传页，校验 `collection_name` 合法性。
+- 文档上传解析：上传单文件，查看分片与统计，可选是否直接入向量库，失败自动兜底索引一次。
+- 检索与对话：支持多知识库搜索、聊天流式回答，并展示命中片段来源。
+- 健康检查与提示：调用后端 `/api/health` 反馈 Milvus 连接状态。
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## 环境要求
 
-## Getting Started
+- Node.js ≥ 20
+- 推荐使用 pnpm（仓库已提供 `pnpm-lock.yaml`）
+- 后端接口默认指向 `http://localhost:8010`，可在 `app/lib/api.ts` 调整 `API_BASE_URL`
 
-### Installation
-
-Install the dependencies:
+## 本地开发
 
 ```bash
-npm install
+cd frontend
+pnpm install
+pnpm dev
+# 默认端口 http://localhost:5173，需要后端先运行在 8010 端口
 ```
 
-### Development
-
-Start the development server with HMR:
+## 构建与运行
 
 ```bash
-npm run dev
+pnpm build          # 产物位于 build/client 与 build/server
+pnpm start          # 使用 react-router-serve 启动已构建的服务端入口
 ```
 
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
+## Docker（可选）
 
 ```bash
-npm run build
+docker build -t rag-frontend .
+docker run --rm -p 3000:3000 rag-frontend
 ```
 
-## Deployment
+如需自定义后端地址，请在构建镜像前修改 `app/lib/api.ts` 中的 `API_BASE_URL`。
 
-### Docker Deployment
+## 关键路径
 
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+- UI 入口：`app/routes/index.tsx`、`app/routes/home.tsx`
+- 知识库上传流程：`app/routes/knowledge-base-upload.tsx`
+- API 封装：`app/lib/api.ts`
