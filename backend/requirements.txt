@@ -1,0 +1,23 @@
+# FastAPI 核心
+fastapi
+uvicorn[standard]
+pydantic-settings
+
+# 知识库元数据存储（SQLite）
+sqlalchemy
+aiosqlite
+
+# 文档解析
+python-docx
+pillow
+
+# Milvus 和 LangChain
+langchain-core
+langchain-milvus
+langchain-ollama
+langchain-classic
+langgraph
+pymilvus
+
+# 可选：PDF 支持
+# unstructured[pdf]

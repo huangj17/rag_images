@@ -1,0 +1,329 @@
+@import "tailwindcss";
+@plugin '../hero.ts';
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+html,
+body {
+  @apply bg-gradient-to-br from-slate-100 via-blue-50/30 to-indigo-50/50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800 rounded;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* 文本溢出省略 */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 图片加载动画 */
+img {
+  @apply transition-opacity duration-300;
+}
+
+img[src=""] {
+  @apply opacity-0;
+}
+
+/* 页面最小高度 */
+#root {
+  min-height: 100vh;
+}
+
+/* ========== 后台管理布局 ========== */
+
+/* 主布局容器 */
+.admin-layout {
+  @apply min-h-screen flex;
+}
+
+/* 侧边栏容器 */
+.sidebar-container {
+  @apply fixed left-0 top-0 h-screen z-50 flex flex-col;
+  @apply bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl;
+  @apply border-r border-gray-200/80 dark:border-gray-700/50;
+  @apply shadow-xl shadow-gray-200/50 dark:shadow-none;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-expanded {
+  width: 240px;
+}
+
+.sidebar-collapsed,
+html.sidebar-collapsed-initial .sidebar-expanded {
+  width: 64px;
+}
+
+/* 侧边栏头部 */
+.sidebar-header {
+  @apply py-5 border-b border-gray-100 dark:border-gray-800;
+  @apply flex justify-center;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.sidebar-collapsed .sidebar-header,
+html.sidebar-collapsed-initial .sidebar-header {
+  @apply px-0;
+}
+
+/* Logo 容器 */
+.sidebar-logo {
+  @apply flex items-center gap-3 overflow-hidden;
+}
+
+.sidebar-collapsed .sidebar-logo,
+html.sidebar-collapsed-initial .sidebar-logo {
+  @apply justify-center gap-0;
+}
+
+/* Logo 文字 */
+.sidebar-logo-text {
+  @apply whitespace-nowrap;
+  transition: opacity 0.2s, width 0.2s;
+}
+
+.sidebar-collapsed .sidebar-logo-text,
+html.sidebar-collapsed-initial .sidebar-logo-text {
+  @apply opacity-0 w-0 overflow-hidden;
+}
+
+/* 侧边栏导航 */
+.sidebar-nav {
+  @apply flex-1 py-4 space-y-1 overflow-y-auto overflow-x-hidden;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.sidebar-collapsed .sidebar-nav,
+html.sidebar-collapsed-initial .sidebar-nav {
+  @apply px-2 flex flex-col items-center;
+}
+
+/* 菜单项 */
+.sidebar-menu-item {
+  @apply w-full flex items-center gap-3 px-3 py-2.5 rounded-xl;
+  @apply text-gray-600 dark:text-gray-400 text-sm font-medium;
+  @apply bg-transparent;
+  transition: background-color 0.2s ease, background 0.2s ease;
+}
+
+.sidebar-menu-item:hover {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+.sidebar-collapsed .sidebar-menu-item,
+html.sidebar-collapsed-initial .sidebar-menu-item {
+  @apply justify-center p-0 gap-0;
+  width: 48px;
+  height: 48px;
+}
+
+.sidebar-menu-item-active {
+  @apply bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20;
+  @apply text-blue-600 dark:text-blue-400;
+  @apply shadow-sm;
+}
+
+.sidebar-menu-item-active:hover {
+  @apply bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30;
+}
+
+/* 菜单图标 */
+.sidebar-menu-icon {
+  @apply w-10 h-10 min-w-[40px] flex items-center justify-center rounded-lg;
+  @apply bg-gray-100 dark:bg-gray-800;
+  @apply text-gray-500 dark:text-gray-400;
+  @apply transition-all duration-200;
+}
+
+.sidebar-menu-icon-active {
+  @apply bg-gradient-to-br from-blue-500 to-indigo-500;
+  @apply text-white;
+  @apply shadow-lg shadow-blue-500/30;
+}
+
+/* 菜单标签 */
+.sidebar-menu-label {
+  @apply whitespace-nowrap;
+  transition: opacity 0.2s, width 0.2s;
+}
+
+.sidebar-collapsed .sidebar-menu-label,
+html.sidebar-collapsed-initial .sidebar-menu-label {
+  @apply opacity-0 w-0 overflow-hidden;
+}
+
+/* 侧边栏底部 */
+.sidebar-footer {
+  @apply py-4 border-t border-gray-100 dark:border-gray-800;
+  @apply space-y-3 flex flex-col items-center;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.sidebar-collapsed .sidebar-footer,
+html.sidebar-collapsed-initial .sidebar-footer {
+  @apply px-2;
+}
+
+/* 状态区域 */
+.sidebar-status {
+  @apply flex items-center justify-center w-full;
+}
+
+/* 折叠按钮 */
+.sidebar-collapse-btn {
+  @apply text-gray-500 dark:text-gray-400;
+  @apply hover:bg-gray-100 dark:hover:bg-gray-800;
+}
+
+/* 主内容区域 */
+.admin-content {
+  @apply flex-1 min-h-screen;
+  @apply bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/30;
+  @apply dark:from-gray-950 dark:via-gray-900 dark:to-gray-950;
+  margin-left: 240px;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-content-expanded,
+html.sidebar-collapsed-initial .admin-content {
+  margin-left: 64px;
+}
+
+/* 内容容器 */
+.content-container {
+  @apply max-w-5xl mx-auto px-8 py-8;
+}
+
+/* 内容头部 */
+.content-header {
+  @apply mb-8;
+}
+
+.content-title {
+  @apply text-2xl font-bold text-gray-800 dark:text-gray-100;
+}
+
+.content-description {
+  @apply mt-1 text-sm text-gray-500 dark:text-gray-400;
+}
+
+/* 渐变文字 */
+.gradient-text {
+  @apply bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent;
+}
+
+/* 玻璃卡片效果 */
+.glass-card {
+  @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/20 dark:border-gray-700/30;
+}
+
+/* 悬浮效果 */
+.hover-lift {
+  @apply transition-all duration-300 ease-out;
+}
+
+.hover-lift:hover {
+  @apply -translate-y-1 shadow-xl shadow-blue-500/10;
+}
+
+/* 搜索框发光效果 */
+.search-glow:focus-within {
+  @apply ring-2 ring-blue-500/30 shadow-lg shadow-blue-500/20;
+}
+
+/* 空状态图标动画 */
+.empty-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 渐变边框 */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* 渐变阴影 */
+.gradient-shadow {
+  @apply relative;
+}
+
+.gradient-shadow::after {
+  content: "";
+  @apply absolute inset-0 -z-10 blur-2xl opacity-30;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  transform: translateY(10px) scale(0.95);
+}
+
+/* 头部渐变背景 */
+.header-gradient {
+  @apply bg-gradient-to-r from-white via-blue-50/50 to-indigo-50/50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800;
+}
+
+/* 脉冲动画 */
+.pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
